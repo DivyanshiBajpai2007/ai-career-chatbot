@@ -110,7 +110,7 @@ ai-career-chatbot/
 3rd Year CSE-AI Student | Maharana Pratap Group of Institutions, Kanpur
 Aspiring AI Engineer at Microsoft/Google
 
-- 🔗 [LinkedIn](https://linkedin.com/in/divyanshibajpai)
+- 🔗 [LinkedIn](https://www.linkedin.com/in/divyanshi-bajpai-79902b309)
 - 💻 [GitHub](https://github.com/DivyanshiBajpai2007)
 
 ---
