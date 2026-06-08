@@ -1,8 +1,11 @@
 # 🎯 AI Career Coach
 
 A smart AI-powered career guidance chatbot built specifically for CSE and AI engineering students in India who want to crack top tech companies like **Google, Microsoft, Amazon, and Meta**.
-
 **Live Demo:** https://ai-career-chatbot-fgp97hihugsowfsnwfawbb.streamlit.app/
+*(May take 15 seconds to wake up on first load — free hosting)*
+
+## 🎥 App Preview
+![App Demo](demo.gif)
 
 ---
 
