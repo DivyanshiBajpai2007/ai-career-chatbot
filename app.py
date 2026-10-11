@@ -8,6 +8,8 @@ st.set_page_config(
 )
 
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+# Groq retires models over time, so keep the name in one place
+MODEL = "openai/gpt-oss-120b"
 SYSTEM_PROMPT = """You are CareerBot, an expert AI career coach for CSE and AI engineering students in India who want to crack top tech companies like Google, Microsoft, Amazon, and Meta.
 
 You were built by Divyanshi Bajpai, a 3rd year CSE-AI student from MPGI Kanpur.
@@ -167,7 +169,7 @@ st.markdown("""
 <div class="main-header">
     <h1>🎯 AI Career Coach</h1>
     <p>Your personal guide to cracking Google, Microsoft & top tech companies</p>
-    <p>Built for CSE-AI students in India &nbsp;|&nbsp; Powered by Llama 3.3 70B</p>
+    <p>Built for CSE-AI students in India &nbsp;|&nbsp; Powered by GPT-OSS 120B on Groq</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -180,6 +182,10 @@ with col3:
     st.warning("💬 **Career Chatbot**\nAsk anything about your tech career")
 
 st.divider()
+
+# A typed question is added first, so it renders with the rest of the history
+if prompt := st.chat_input("Ask me anything about your tech career..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
@@ -197,25 +203,20 @@ if len(st.session_state.messages) == 0:
         "Which certifications are worth doing?",
     ]
     for i, suggestion in enumerate(suggestions):
-        if i % 2 == 0:
-            if col1.button(suggestion, use_container_width=True, key=suggestion):
-                st.session_state.messages.append({"role": "user", "content": suggestion})
-                st.rerun()
-        else:
-            if col2.button(suggestion, use_container_width=True, key=suggestion):
-                st.session_state.messages.append({"role": "user", "content": suggestion})
-                st.rerun()
+        col = col1 if i % 2 == 0 else col2
+        if col.button(suggestion, use_container_width=True, key=suggestion):
+            st.session_state.messages.append({"role": "user", "content": suggestion})
+            st.rerun()
 
-if prompt := st.chat_input("Ask me anything about your tech career..."):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+# Answer whenever the latest message is an unanswered question (typed or suggested)
+if st.session_state.messages and st.session_state.messages[-1]["role"] == "user":
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             response = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
+                model=MODEL,
                 messages=[{"role": "system", "content": SYSTEM_PROMPT}] + st.session_state.messages,
-                max_tokens=1024
+                reasoning_effort="low",
+                max_tokens=4096
             )
             reply = response.choices[0].message.content
             st.markdown(reply)

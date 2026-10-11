@@ -43,7 +43,7 @@ As a 3rd year CSE-AI student myself, I struggled to find clear, specific career 
 | Layer | Technology |
 |---|---|
 | Frontend | Streamlit |
-| AI Model | Llama 3.3 70B (via Groq API) |
+| AI Model | GPT-OSS 120B (via Groq API) |
 | Language | Python 3.14 |
 | Deployment | Streamlit Cloud |
 | Version Control | Git & GitHub |
@@ -96,7 +96,7 @@ ai-career-chatbot/
 ## 🎓 What I Learned
 
 - Building multi-page web apps with Streamlit
-- Integrating LLM APIs (Groq + Llama 3.3)
+- Integrating LLM APIs (Groq + GPT-OSS 120B; originally Llama 3.3 70B, migrated after Groq retired it)
 - Prompt engineering for specific use cases
 - Secure API key management
 - Git version control and GitHub

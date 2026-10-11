@@ -3,6 +3,7 @@ from groq import Groq
 
 st.set_page_config(page_title="Resume Reviewer", layout="wide")
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+MODEL = "openai/gpt-oss-120b"
 st.title("Resume Reviewer")
 st.caption("Paste your resume and get detailed AI feedback for your target company")
 st.divider()
@@ -35,12 +36,13 @@ if st.button("Review My Resume", use_container_width=True, type="primary"):
 
         with st.spinner("Reviewing your resume..."):
             response = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
+                model=MODEL,
+                reasoning_effort="low",
                 messages=[
                     {"role": "system", "content": "You are an expert resume reviewer and career coach for CSE/AI students in India targeting top tech companies. Be specific, honest and helpful."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=2048
+                max_tokens=4096
             )
             review = response.choices[0].message.content
 
